@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "organizations",
+  "info": {
+    "singularName": "organization",
+    "pluralName": "organizations",
+    "displayName": "Organization",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "members": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "admin::user"
+    },
+    "articles": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::article.article"
+    }
+  }
+}
