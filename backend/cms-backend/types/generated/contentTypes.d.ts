@@ -379,7 +379,7 @@ export interface ApiArticleArticle extends Schema.CollectionType {
     author: Attribute.Relation<
       'api::article.article',
       'oneToOne',
-      'admin::user'
+      'plugin::users-permissions.user'
     >;
     content: Attribute.RichText;
     createdAt: Attribute.DateTime;
@@ -416,7 +416,7 @@ export interface ApiOrganizationOrganization extends Schema.CollectionType {
     members: Attribute.Relation<
       'api::organization.organization',
       'oneToMany',
-      'admin::user'
+      'plugin::users-permissions.user'
     >;
     articles: Attribute.Relation<
       'api::organization.organization',

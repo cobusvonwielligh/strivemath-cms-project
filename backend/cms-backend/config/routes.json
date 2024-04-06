@@ -1,0 +1,13 @@
+{
+  "routes": [
+    {
+      "method": "POST",
+      "path": "/create-author",
+      "handler": "admin.custom.create-author",
+      "config": {
+        "policies": [],
+        "auth": false
+      }
+    }
+  ]
+}

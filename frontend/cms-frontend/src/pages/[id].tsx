@@ -23,11 +23,18 @@ const ArticlePage: React.FC = () => {
       const res = await fetch(`http://localhost:1337/api/articles/${id}?populate=author`);
       const json = await res.json();
       const { title, content, publishedAt, author } = json.data.attributes;
-      console.log(json.data.attributes);
-      const authorName = author;
-      setArticleData({ title, content, publishedDate: publishedAt, authorName });
+  
+      // Extract the author's username from the nested structure
+      const authorName = author.data.attributes.username; // Access the username from the nested author object
+  
+      setArticleData({ 
+        title, 
+        content, 
+        publishedDate: publishedAt, 
+        authorName // Set the extracted authorName
+      });
     };
-
+  
     if (id) fetchData();
   }, [id]);
 
