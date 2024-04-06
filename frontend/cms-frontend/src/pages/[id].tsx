@@ -3,18 +3,29 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Layout from '../app/layout';
 import ReactMarkdown from 'react-markdown';
+import '../app/globals.css';
+import remarkGfm from 'remark-gfm';
+
+interface ArticleData {
+  title: string;
+  content: string;
+  publishedDate: string;
+  authorName: string;
+}
 
 const ArticlePage: React.FC = () => {
   const router = useRouter();
   const { id } = router.query;
-  const [content, setContent] = useState<string>('');
+  const [articleData, setArticleData] = useState<ArticleData>({ title: '', content: '', publishedDate: '', authorName: 'Author Name' });
 
   useEffect(() => {
-    // Fetch article content from Strapi
     const fetchData = async () => {
-      const res = await fetch(`http://localhost:1337/api/articles/${id}`);
-      const article = await res.json();
-      setContent(article.data.attributes.content);
+      const res = await fetch(`http://localhost:1337/api/articles/${id}?populate=author`);
+      const json = await res.json();
+      const { title, content, publishedAt, author } = json.data.attributes;
+      console.log(json.data.attributes);
+      const authorName = author;
+      setArticleData({ title, content, publishedDate: publishedAt, authorName });
     };
 
     if (id) fetchData();
@@ -22,9 +33,17 @@ const ArticlePage: React.FC = () => {
 
   return (
     <Layout>
-      <article className="prose lg:prose-xl m-auto">
-        <ReactMarkdown>{content}</ReactMarkdown>
-      </article>
+      <div className="bg-gray-800 min-h-screen text-white py-10">
+        <article className="max-w-4xl mx-auto p-5 bg-gray-900 rounded-lg shadow-lg">
+          <h1 className="text-4xl font-bold mb-2">{articleData.title}</h1>
+          <p className="text-gray-400 text-sm mb-5">By {articleData.authorName} on {new Date(articleData.publishedDate).toLocaleDateString()}</p>
+          <div className="bg-gray-700 p-5 rounded-lg text-gray-300">
+            <div className="prose prose-invert max-w-none">
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>{articleData.content}</ReactMarkdown>
+            </div>
+          </div>
+        </article>
+      </div>
     </Layout>
   );
 };
