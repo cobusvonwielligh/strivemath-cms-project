@@ -72,7 +72,7 @@ const RegisterPage = () => {
       }
 
       // Proceed with user registration using updated or existing organizationId
-      const registrationResponse = await registerUser(organizationId);
+      const registrationResponse : any = await registerUser(organizationId);
       if (!registrationResponse.ok) {
         const errorData = await registrationResponse.json();
         const errorMessage = errorData.error ? errorData.error.message : 'An unknown error occurred during registration.';
@@ -81,7 +81,7 @@ const RegisterPage = () => {
       const registrationData = await registrationResponse.json();
       console.log('Registration successful', registrationData);
       Router.push('http://localhost:1337/admin');
-    } catch (error) {
+    } catch (error: any) {
       setError(error.message);
       console.error('Registration error:', error.message);
     } finally {
@@ -210,7 +210,7 @@ const RegisterPage = () => {
                 required
               >
                 <option value="" disabled>Select organization</option>
-                {organizations.map((org) => (
+                {organizations.map((org: any) => (
                   <option key={org.id} value={org.id}>{org.attributes.name}</option>
                 ))}
                 <option value="create-new">➕ Register New</option>

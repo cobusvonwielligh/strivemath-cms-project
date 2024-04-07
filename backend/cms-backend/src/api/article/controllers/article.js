@@ -27,9 +27,11 @@ module.exports = createCoreController('api::article.article', ({ strapi }) => ({
 
     if (user && user.role.name !== 'SuperAdmin') {
       const article = await strapi.entityService.findOne("api::article.article", id, {
+        // @ts-ignore
         populate: { organization: true },
       });
 
+      // @ts-ignore
       if (!article || (article.organization && article.organization.id !== user.organization.id)) {
         return ctx.notFound('Article not found within your organization.');
       }
