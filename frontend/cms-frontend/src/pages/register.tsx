@@ -78,7 +78,7 @@ const RegisterPage = () => {
       }
       const registrationData = await registrationResponse.json();
       console.log('Registration successful', registrationData);
-      Router.push('/admin'); // Assuming this is the path you want to redirect to
+      Router.push(`${process.env.NEXT_PUBLIC_HOST_URL}/admin/auth/login`);
     } catch (error: any) {
       setError(error.message);
       console.error('Registration error:', error.message);
