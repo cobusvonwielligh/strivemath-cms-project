@@ -18,7 +18,7 @@
     "members": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "plugin::users-permissions.user"
+      "target": "admin::user"
     },
     "articles": {
       "type": "relation",

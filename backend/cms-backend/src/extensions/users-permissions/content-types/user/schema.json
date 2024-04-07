@@ -69,6 +69,11 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::organization.organization"
+    },
+    "admin_user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "admin::user"
     }
   }
 }
