@@ -14,6 +14,13 @@ module.exports = ({ env }) => {
         ssl: env.bool('DATABASE_SSL'),
       },
       pool: { min: env.int('DATABASE_POOL_MIN', 2), max: env.int('DATABASE_POOL_MAX', 100) },
+      acquireConnectionTimeout: 1000000,
+      acquireTimeoutMillis: 300000,
+      createTimeoutMillis: 300000,
+      destroyTimeoutMillis: 300000,
+      idleTimeoutMillis: 30000,
+      reapIntervalMillis:1000,
+      createRetryIntervalMillis: 2000
     },
     sqlite: {
       connection: {
