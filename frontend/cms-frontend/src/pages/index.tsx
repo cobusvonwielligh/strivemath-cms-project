@@ -5,7 +5,7 @@ import '../app/globals.css';
 export default function Home() {
   // Adjust these URLs based on your Strapi deployment
   const strapiRegisterUrl = '/register';
-  const strapiLoginUrl = 'http://localhost:1337/admin/auth/login';
+  const strapiLoginUrl = `${process.env.NEXT_PUBLIC_HOST_URL}/admin/auth/login`;
 
   return (
     <Layout>

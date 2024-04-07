@@ -20,7 +20,7 @@ const RegisterPage = () => {
   useEffect(() => {
     const fetchOrganizations = async () => {
       try {
-        const response = await fetch('http://localhost:1337/api/organizations');
+        const response = await fetch(`${process.env.NEXT_PUBLIC_HOST_URL}/api/organizations`);
         const data = await response.json();
         setOrganizations(data.data || []);
       } catch (error) {
@@ -32,22 +32,22 @@ const RegisterPage = () => {
     fetchOrganizations();
   }, []);
 
-  const handleChange = (e: { target: { name: any; value: any; }; }) => {
+  const handleChange = (e: any) => {
     const { name, value } = e.target;
     setUserData({ ...userData, [name]: value });
   };
 
-  const handleOrganizationChange = (e: { target: { value: any; }; }) => {
+  const handleOrganizationChange = (e: any) => {
     const { value } = e.target;
     setUserData({ ...userData, organizationId: value });
     setIsNewOrganizationSelected(value === 'create-new');
   };
 
-  const handleNewOrganizationChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
+  const handleNewOrganizationChange = (e: any) => {
     setNewOrganization(e.target.value);
   };
 
-  const handleSubmit = async (e: { preventDefault: () => void; }) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     if (isNewOrganizationSelected && !newOrganization) {
       setError('Please enter a name for the new organization.');
@@ -59,7 +59,6 @@ const RegisterPage = () => {
 
     try {
       let organizationId = userData.organizationId;
-      // Create a new organization if needed
       if (isNewOrganizationSelected && newOrganization) {
         const organizationResponse = await createNewOrganization();
         if (!organizationResponse.ok) {
@@ -68,11 +67,10 @@ const RegisterPage = () => {
           throw new Error(`Failed to create organization: ${errorMessage}`);
         }
         const organizationData = await organizationResponse.json();
-        organizationId = organizationData.data.id; // Adjust according to your API response structure
+        organizationId = organizationData.data.id;
       }
 
-      // Proceed with user registration using updated or existing organizationId
-      const registrationResponse : any = await registerUser(organizationId);
+      const registrationResponse = await registerUser(organizationId);
       if (!registrationResponse.ok) {
         const errorData = await registrationResponse.json();
         const errorMessage = errorData.error ? errorData.error.message : 'An unknown error occurred during registration.';
@@ -80,7 +78,7 @@ const RegisterPage = () => {
       }
       const registrationData = await registrationResponse.json();
       console.log('Registration successful', registrationData);
-      Router.push('http://localhost:1337/admin');
+      Router.push('/admin'); // Assuming this is the path you want to redirect to
     } catch (error: any) {
       setError(error.message);
       console.error('Registration error:', error.message);
@@ -89,32 +87,21 @@ const RegisterPage = () => {
     }
   };
 
-
-  // Creates a new organization and returns the response
   const createNewOrganization = async () => {
-    return fetch('http://localhost:1337/api/organizations', {
+    return fetch(`${process.env.NEXT_PUBLIC_HOST_URL}/api/organizations`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ data: { name: newOrganization } }),
     });
   };
 
-  // Registers a user with the given or new organization ID
-  const registerUser = async (organizationId: string) => {
+  const registerUser = async (organizationId: any) => {
     const userPayload = { ...userData, organizationId };
-    const response = await fetch('http://localhost:1337/api/create-author', {
+    return fetch(`${process.env.NEXT_PUBLIC_HOST_URL}/api/create-author`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(userPayload),
     });
-
-    const data = await response.json();
-    if (response.ok) {
-      console.log('Registration successful', data);
-      Router.push('http://localhost:1337/admin');
-    } else {
-      throw new Error(data.message || 'An unknown error occurred during registration.');
-    }
   };
 
   return (
