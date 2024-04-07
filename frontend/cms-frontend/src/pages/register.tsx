@@ -32,22 +32,22 @@ const RegisterPage = () => {
     fetchOrganizations();
   }, []);
 
-  const handleChange = (e) => {
+  const handleChange = (e: { target: { name: any; value: any; }; }) => {
     const { name, value } = e.target;
     setUserData({ ...userData, [name]: value });
   };
 
-  const handleOrganizationChange = (e) => {
+  const handleOrganizationChange = (e: { target: { value: any; }; }) => {
     const { value } = e.target;
     setUserData({ ...userData, organizationId: value });
     setIsNewOrganizationSelected(value === 'create-new');
   };
 
-  const handleNewOrganizationChange = (e) => {
+  const handleNewOrganizationChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
     setNewOrganization(e.target.value);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     if (isNewOrganizationSelected && !newOrganization) {
       setError('Please enter a name for the new organization.');
@@ -100,7 +100,7 @@ const RegisterPage = () => {
   };
 
   // Registers a user with the given or new organization ID
-  const registerUser = async (organizationId) => {
+  const registerUser = async (organizationId: string) => {
     const userPayload = { ...userData, organizationId };
     const response = await fetch('http://localhost:1337/api/create-author', {
       method: 'POST',
