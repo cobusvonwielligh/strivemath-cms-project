@@ -52,8 +52,8 @@ To get started with development, you will need to set up both the frontend and b
 
 The applications are deployed separately to ensure optimal performance and scalability:
 
-- **Backend (Strapi):** Deployed to [Strapi Cloud](https://cloud.strapi.io/) (Adjust this link to your actual Strapi backend deployment)
-- **Frontend (Next.js):** Deployed to [Netlify](https://www.netlify.com/) (Adjust this link to your actual Next.js frontend deployment)
+- **Backend (Strapi):** Deployed to [Render](https://strivemath-cms-project.onrender.com)
+- **Frontend (Next.js):** Deployed to [Netlify](https://strivemath-cms-project.netlify.app/)
 
 ### License
 
