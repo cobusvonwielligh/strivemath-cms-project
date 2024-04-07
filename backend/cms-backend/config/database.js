@@ -13,7 +13,7 @@ module.exports = ({ env }) => {
         password: env('DATABASE_PASSWORD'),
         ssl: env.bool('DATABASE_SSL'),
       },
-      pool: { min: env.int('DATABASE_POOL_MIN', 2), max: env.int('DATABASE_POOL_MAX', 10) },
+      pool: { min: env.int('DATABASE_POOL_MIN', 2), max: env.int('DATABASE_POOL_MAX', 100) },
     },
     sqlite: {
       connection: {
