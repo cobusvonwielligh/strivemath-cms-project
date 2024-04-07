@@ -1,6 +1,6 @@
 
 # StriveMath CMS Project
-
+[Hosted Site](https://strivemath-cms-project.netlify.app/)
 ## by: Cobus von Wielligh
 
 StriveMath CMS Project is a full-stack application designed to manage and deliver content for StriveMath, a platform dedicated to enhancing math education. This project leverages Strapi as its headless CMS backend and Next.js for the frontend, offering a seamless content management and delivery experience.
