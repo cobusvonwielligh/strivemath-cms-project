@@ -111,7 +111,7 @@ const RegisterPage = () => {
     const data = await response.json();
     if (response.ok) {
       console.log('Registration successful', data);
-      Router.push('/admin');
+      Router.push('http://localhost:1337/admin');
     } else {
       throw new Error(data.message || 'An unknown error occurred during registration.');
     }

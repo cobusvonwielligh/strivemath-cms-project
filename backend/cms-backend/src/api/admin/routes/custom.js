@@ -42,6 +42,29 @@ module.exports = {
           };
           const duplicateUser = await strapi.query('plugin::users-permissions.user').create({ data:  { ...duplicateUserData } });
 
+          // Assuming organizationId is valid and exists, and that the members field is correctly set up for relations
+          // Fetch the organization along with its members
+          const organization = await strapi.query('api::organization.organization').findOne({
+            where: { id: organizationId },
+            populate: ['members'], // Make sure this matches the relation field name in your Organization model
+          });
+
+          // Add the user to the organization's members
+          if (organization && organization.members) {
+            // If members already exist, append the new user; otherwise, create an array with the user
+            const updatedMembers = organization.members.map(member => member.id);
+            updatedMembers.push(duplicateUser.id); // Ensure this ID is correctly referencing the user's ID
+
+            // Update the organization with the new members list
+            await strapi.query('api::organization.organization').update({
+              where: { id: organizationId },
+              data: { members: updatedMembers },
+            });
+          } else {
+            // Handle cases where the organization is not found or the members field doesn't exist
+            strapi.log.error(`Organization not found or doesn't have a members field.`);
+          }
+
           strapi.log.info(`Created author: ${firstname} ${lastname} (${email})`);
           return ctx.send({ message: 'Author created successfully!', details: { adminUser, duplicateUser } }, 200);
         } catch (err) {
